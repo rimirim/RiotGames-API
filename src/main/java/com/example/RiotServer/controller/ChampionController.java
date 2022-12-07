@@ -3,6 +3,7 @@ package com.example.RiotServer.controller;
 import com.example.RiotServer.entity.Champion;
 import com.example.RiotServer.service.ChampionService;
 import com.example.RiotServer.util.DefaultRes;
+import com.example.RiotServer.util.JsonParser;
 import com.example.RiotServer.util.StatusEnum;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
@@ -41,13 +42,8 @@ public class ChampionController {
 
             log.info("======= Parse Champion.json =======");
 
-            String jsonToString = new BufferedReader(
-                    new InputStreamReader(
-                            Objects.requireNonNull(this.getClass().getClassLoader().getResourceAsStream("lol_championList.json"))
-                    )
-            ).lines().collect(Collectors.joining());
-
-            List<Champion> championList = championService.parseChampion(jsonToString);
+            JsonParser jsonParser = new JsonParser();
+            List<Champion> championList = jsonParser.championParser("lol_championList.json");
 
             log.info("======= Database save ChampionList =======");
 
