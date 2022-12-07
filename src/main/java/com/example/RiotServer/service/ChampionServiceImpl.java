@@ -7,7 +7,6 @@ import com.example.RiotServer.util.StatusEnum;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.logging.log4j.message.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -60,17 +59,62 @@ public class ChampionServiceImpl implements ChampionService {
 
         try {
             if (championMapper.insertChampions(championList) > 0) {
-                res.setStatusEnum(StatusEnum.OK);
+                StatusEnum statusEnum = StatusEnum.DATA_REQUEST_SUCCESS;
+                res.setStatusCode(statusEnum.getStatusCode());
+                res.setResMessage(statusEnum.getResMessage());
                 res.setData(championList);
                 return new ResponseEntity(res, HttpStatus.OK);
             } else {
-                res.setStatusEnum(StatusEnum.CHAMPION_DATAS_INSERT_FAILED);
+                StatusEnum statusEnum = StatusEnum.CHAMPION_DATAS_INSERT_FAILED;
+                res.setStatusCode(statusEnum.getStatusCode());
+                res.setResMessage(statusEnum.getResMessage());
                 res.setData(championList);
                 return new ResponseEntity(res, HttpStatus.OK);
             }
         }catch (Exception e) {
             log.info("exception" + e);
-            return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
+            StatusEnum statusEnum = StatusEnum.FAILED;
+            res.setStatusCode(statusEnum.getStatusCode());
+            res.setResMessage(e.getMessage());
+            res.setData(championList);
+            return new ResponseEntity(res, HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
+    @Override
+    public ResponseEntity getChampion(){
+
+        List<Champion> championList = championMapper.getChampionList();
+        DefaultRes res = new DefaultRes();
+
+        try {
+            if(championList.size() > 0) {
+
+                log.info("Champion List in DB " + championList);
+                StatusEnum statusEnum = StatusEnum.OK;
+                res.setStatusCode(statusEnum.getStatusCode());
+                res.setResMessage(statusEnum.getResMessage());
+                res.setData(championList);
+                return new ResponseEntity(res,HttpStatus.OK);
+
+            } else {
+
+                log.info("Champion List not in DB " + championList);
+                StatusEnum statusEnum = StatusEnum.CHAMPION_DATAS_ARE_NULL;
+                res.setStatusCode(statusEnum.getStatusCode());
+                res.setResMessage(statusEnum.getResMessage());
+                res.setData(championList);
+                return new ResponseEntity(res,HttpStatus.NO_CONTENT);
+
+            }
+        } catch (Exception e) {
+            log.info("exception" + e);
+            StatusEnum statusEnum = StatusEnum.FAILED;
+            res.setStatusCode(statusEnum.getStatusCode());
+            res.setResMessage(statusEnum.getResMessage());
+            res.setData(null);
+            return new ResponseEntity(res, HttpStatus.BAD_REQUEST);
         }
 
     }

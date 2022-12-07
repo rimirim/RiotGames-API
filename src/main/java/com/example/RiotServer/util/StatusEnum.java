@@ -1,17 +1,24 @@
 package com.example.RiotServer.util;
 
+import lombok.Getter;
+
 public enum StatusEnum {
 
     OK(200, "OK"),
-    BAD_REQUEST(400,"BAD_REQUEST"),
     DATA_REQUEST_SUCCESS(200, "DATA_REQUEST_SUCCESS"),
     CHAMPION_DATAS_INSERT_FAILED (200, "CHAMPION_DATAS_INSERT_FAILED"),
-    CHAMPION_DATAS_ARE_NULL(204, "CHAMPION_DATAS_ARE_NULL")
+    CHAMPION_DATAS_ARE_NULL(204, "CHAMPION_DATAS_ARE_NULL"),
+
+    BAD_REQUEST(400,"BAD_REQUEST"),
+    UNAUTHORIZED(401, "UNAUTHORIZED"),
+    FAILED (420, "")
     ;
 
-    int statusCode;
-    String resMessage;
-    StatusEnum(int statusCode, String resMessage) {
+    @Getter
+    private int statusCode;
+    @Getter
+    private String resMessage;
+    private StatusEnum(int statusCode, String resMessage) {
 
         this.statusCode = statusCode;
         this.resMessage = resMessage;

@@ -8,4 +8,5 @@ import java.util.List;
 @Mapper
 public interface ChampionMapper {
     public int insertChampions (List<Champion> insert);
+    public List<Champion> getChampionList();
 }

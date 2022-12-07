@@ -1,5 +1,6 @@
 package com.example.RiotServer.util;
 
+import io.micrometer.core.lang.Nullable;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -7,12 +8,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DefaultRes {
 
-    private StatusEnum statusEnum;
-    private String resMessage = statusEnum.resMessage;
+    private int statusCode;
+    private String resMessage;
     private Object data;
 
-    public DefaultRes(StatusEnum statusEnum, Object data) {
-        this.statusEnum = statusEnum;
+    public DefaultRes(int statusCode, String resMessage, @Nullable Object data) {
+        this.statusCode = statusCode;
+        this.resMessage = resMessage;
         this.data = data;
     }
 
