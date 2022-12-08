@@ -41,13 +41,12 @@ public class ChampionController {
         if (authKey == "aryoo@clvs.co.kr") {
 
             log.info("======= Parse Champion.json =======");
-
             JsonParser jsonParser = new JsonParser();
             List<Champion> championList = jsonParser.championParser("lol_championList.json");
 
             log.info("======= Database save ChampionList =======");
-
             return championService.saveChampion(championList);
+
         } else {
 
             log.info("Not correct authKey ! : " + authKey);
@@ -60,8 +59,9 @@ public class ChampionController {
     @ResponseBody
     @PostMapping("/championList")
     public ResponseEntity getChampionList(HttpServletRequest request) {
-        log.info("======= Get ChampionList From Database =======");
 
+        log.info("======= Get ChampionList From Database =======");
         return championService.getChampion();
+
     }
 }
