@@ -9,7 +9,7 @@
         </foreach>
     </insert>
 
-    <select id="getChampionList" resultType="com.example.RiotServer.model.Champion">
+    <select id="getChampionList" resultType="com.example.RiotServer.entity.Champion">
         select name, champion_key From lol_champion
     </select>
 
